@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sunrise" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffe7be"/>
+      <stop offset="55%" stop-color="#ffc8d2"/>
+      <stop offset="100%" stop-color="#9ad0ee"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7fc8ff"/>
+      <stop offset="100%" stop-color="#4a97da"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sunrise)"/>
+  <circle cx="980" cy="250" r="130" fill="#fff2d2" opacity="0.9"/>
+  <path d="M0 610 C340 560 640 610 960 570 C1290 530 1580 590 1920 540 L1920 1080 L0 1080 Z" fill="#84b2d8"/>
+  <rect x="0" y="690" width="1920" height="390" fill="url(#water)"/>
+  <path d="M0 740 C400 700 760 760 1120 730 C1490 698 1730 750 1920 725" stroke="#e1fbff" stroke-width="10" opacity="0.45"/>
+  <g fill="#546897">
+    <rect x="0" y="520" width="1920" height="20"/>
+    <rect x="130" y="540" width="28" height="190"/>
+    <rect x="360" y="540" width="28" height="190"/>
+    <rect x="590" y="540" width="28" height="190"/>
+    <rect x="820" y="540" width="28" height="190"/>
+    <rect x="1050" y="540" width="28" height="190"/>
+    <rect x="1280" y="540" width="28" height="190"/>
+    <rect x="1510" y="540" width="28" height="190"/>
+    <rect x="1740" y="540" width="28" height="190"/>
+  </g>
+  <path d="M0 730 L1920 730 L1920 820 L0 820 Z" fill="#2f3e6e" opacity="0.9"/>
+</svg>
