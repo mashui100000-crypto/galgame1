@@ -452,7 +452,6 @@ const dom = {
   nextHint: document.getElementById("next-hint"),
   dialoguePanel: document.getElementById("dialogue-panel"),
   autoBtn: document.getElementById("auto-btn"),
-  skipBtn: document.getElementById("skip-btn"),
   saveBtn: document.getElementById("save-btn"),
   loadBtn: document.getElementById("load-btn"),
   historyBtn: document.getElementById("history-btn"),
@@ -481,7 +480,6 @@ const game = {
   isTyping: false,
   canAdvance: false,
   isAuto: false,
-  isSkip: false,
   history: [],
   unlockedEndings: loadUnlockedEndings(),
   state: createDefaultState(),
@@ -541,13 +539,17 @@ function updateStats() {
 
 function syncPortraitLayout() {
   const panel = dom.dialoguePanel;
-  if (!panel) return;
+  const topUi = document.getElementById("top-ui");
+  if (!panel || !topUi) return;
+  const topRect = topUi.getBoundingClientRect();
   const rect = panel.getBoundingClientRect();
-  const reserve = Math.max(
+  const bottomReserve = Math.max(
     250,
     Math.min(Math.round(window.innerHeight * 0.62), Math.round(window.innerHeight - rect.top + 32))
   );
-  document.documentElement.style.setProperty("--dialogue-reserve", `${reserve}px`);
+  const topReserve = Math.max(86, Math.min(240, Math.round(topRect.height + topRect.top + 18)));
+  document.documentElement.style.setProperty("--dialogue-reserve", `${bottomReserve}px`);
+  document.documentElement.style.setProperty("--top-ui-reserve", `${topReserve}px`);
 }
 
 function setVisuals(bgKey, heroKey, dragonKey) {
@@ -627,7 +629,7 @@ function startTyping(text) {
   dom.dialogue.textContent = "";
   dom.nextHint.textContent = "正在显示文字...";
 
-  const immediate = game.isSkip || text.length <= 2;
+  const immediate = text.length <= 2;
   if (immediate) {
     finishTyping();
     return;
@@ -660,7 +662,7 @@ function finishTyping() {
     clearAutoTimer();
     game.pendingAutoTimer = setTimeout(() => {
       advanceStory();
-    }, game.isSkip ? 90 : 1050);
+    }, 1050);
   }
 }
 
@@ -940,20 +942,11 @@ function tryPlayBgm() {
 
 function toggleAuto() {
   game.isAuto = !game.isAuto;
-  if (game.isAuto) game.isSkip = false;
   dom.autoBtn.classList.toggle("active", game.isAuto);
-  dom.skipBtn.classList.toggle("active", game.isSkip);
   if (game.isAuto && !game.isTyping && !hasVisibleChoices()) {
     clearAutoTimer();
     game.pendingAutoTimer = setTimeout(() => advanceStory(), 600);
   }
-}
-
-function toggleSkip() {
-  game.isSkip = !game.isSkip;
-  if (game.isSkip) game.isAuto = false;
-  dom.autoBtn.classList.toggle("active", game.isAuto);
-  dom.skipBtn.classList.toggle("active", game.isSkip);
 }
 
 function toggleMute() {
@@ -971,7 +964,6 @@ function setupEvents() {
   dom.choiceContainer.addEventListener("click", (event) => event.stopPropagation());
 
   dom.autoBtn.addEventListener("click", toggleAuto);
-  dom.skipBtn.addEventListener("click", toggleSkip);
   dom.saveBtn.addEventListener("click", manualSave);
   dom.loadBtn.addEventListener("click", manualLoad);
   dom.historyBtn.addEventListener("click", () => {
@@ -1025,11 +1017,6 @@ function setupEvents() {
       return;
     }
 
-    if (event.key === "s" || event.key === "S") {
-      toggleSkip();
-      return;
-    }
-
     if (event.key === "m" || event.key === "M") {
       toggleMute();
       return;
@@ -1074,7 +1061,6 @@ window.render_game_to_text = () => {
     choiceCount: dom.choiceContainer.children.length,
     stats: game.state,
     auto: game.isAuto,
-    skip: game.isSkip,
     note: "坐标系：本作为视觉小说界面，无角色平面坐标。"
   });
 };
