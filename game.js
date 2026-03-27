@@ -7,6 +7,7 @@ const STORAGE_KEYS = {
 
 const ASSETS = {
   bg: {
+    classroomDay: "./assets/bg/classroom-day-v3-hd.jpg",
     classroomNight: "./assets/bg/classroom-night-v3-hd.jpg",
     classroomEvening: "./assets/bg/classroom-day-v3-hd.jpg",
     classroomSun: "./assets/bg/classroom-day-v3-hd.jpg",
@@ -54,6 +55,25 @@ const ENDING_LIBRARY = {
     desc: "你们唱出的旋律唤醒了星河核心，整个城市为你们点亮。"
   }
 };
+
+Object.assign(ENDING_LIBRARY, {
+  ending_warm: {
+    title: "结局一：护腕约定",
+    desc: "比赛后的护腕与约定，让学妹的心意终于落地。"
+  },
+  ending_adventure: {
+    title: "结局二：追分计划",
+    desc: "蒝蒝决定先变强，把距离化成可以追上的步数。"
+  },
+  ending_daily: {
+    title: "结局三：默契日常",
+    desc: "没有轰鸣的告白，却有稳定的并肩与陪伴。"
+  },
+  ending_secret: {
+    title: "隐藏结局：终身陪练",
+    desc: "歌单、护腕与笑意，让攻略写成了真正的主线。"
+  }
+});
 
 const SCENES = {
   intro: {
@@ -204,168 +224,111 @@ const SCENES = {
 
 Object.assign(SCENES, {
   intro: {
-    bg: "streetNight",
+    bg: "classroomDay",
     hero: "daily",
     dragon: "happy",
     lines: [
-      { speaker: "旁白", text: "凌晨零点零七分，蒝蒝在通学路听见了一声像汽水开罐的轻响。整条街忽然开始倒放：云在回流，路灯在吸光，影子往脚底爬。" },
-      { speaker: "蒝蒝", text: "这条路怎么像在呼吸……奶龙，你也听见了吗？" },
-      { speaker: "奶龙", text: "听见了。那是愿望门在试音。今晚它会挑一个最不按逻辑的人，去写明天。", dragon: "wow" },
-      { speaker: "蒝蒝", text: "那它运气不错，我平时就挺不讲逻辑。", hero: "wink" },
-      { speaker: "奶龙", text: "不过规则很怪：同一句对白说两遍，世界会长出第二个答案。", dragon: "sleep" },
-      { speaker: "旁白", text: "风把纸片吹到你们脚边，纸上写着：请在荒诞里保持温柔。" }
+      { speaker: "旁白", text: "体育课临时选项里出现了篮球课。蒝蒝本想避开，可签到时才发现名单已经提交。她几乎不懂篮球，只能站在场边看别人奔跑。"},
+      { speaker: "旁白", text: "奶龙前辈是篮球队主力，外号小科比。平时你们几乎没有交集，这节课却刚好同班。"},
+      { speaker: "蒝蒝", text: "（他好像每次投篮都稳得过分……）", hero: "wink" },
+      { speaker: "旁白", text: "课间休息，男生们嬉笑打闹，一颗篮球突然朝蒝蒝脸上飞来。她下意识闭上了眼。"},
+      { speaker: "旁白", text: "下一秒，球停在半空——奶龙前辈单手抓住了篮球，顺势把球丢回去。男生们连连道歉。"},
+      { speaker: "奶龙", text: "没事吧？下次记得看球。", dragon: "wow" },
+      { speaker: "蒝蒝", text: "我……我没事。谢谢你，前辈。", hero: "daily" }
     ],
     choices: [
-      { text: "追着反方向坠落的流星跑", next: "route_adventure", effects: { courage: 2, wonder: 1 } },
-      { text: "先去学园祭教室，确认现实是否稳定", next: "route_market", effects: { bond: 2 } },
-      { text: "去夜排练室，用节拍把空间钉住", next: "route_stage", effects: { bond: 1, wonder: 2 } }
+      { text: "认真道谢，递上随身带的水", next: "after_class", effects: { bond: 2 } },
+      { text: "装作镇定，悄悄记住他的名字", next: "after_class", effects: { wonder: 1, bond: 1 } }
     ]
   },
-  route_adventure: {
+  after_class: {
+    bg: "classroomDay",
+    hero: "daily",
+    dragon: "happy",
+    lines: [
+      { speaker: "旁白", text: "下课后，蒝蒝站在走廊，手心还带着刚才的汗。她第一次意识到，和前辈说话比跑800还紧张。"},
+      { speaker: "奶龙", text: "你是新生吧？篮球课不难，怕的话就站边上看战术。", dragon: "happy" },
+      { speaker: "蒝蒝", text: "我想学一点……至少不拖大家后腿。", hero: "wink" },
+      { speaker: "旁白", text: "奶龙前辈没有立刻回答，只是把毛巾递给她。"},
+      { speaker: "奶龙", text: "那从最基础的传球开始。明天训练结束，我等你十分钟。", dragon: "wow" }
+    ],
+    choices: [
+      { text: "答应下来，决定认真练习", next: "training_start", effects: { courage: 2 } },
+      { text: "说自己时间少，但愿意帮忙记录训练", next: "training_start", effects: { bond: 2 } },
+      { text: "偷偷做一份篮球歌单想送给他", next: "training_start", effects: { wonder: 2 } }
+    ]
+  },
+  training_start: {
     bg: "streetSunset",
     hero: "walk",
-    dragon: "wow",
-    lines: [
-      { speaker: "旁白", text: "你们拐进黄昏街道，天空像被橘子汽水浸泡过，电线杆上挂着未寄出的星期三。" },
-      { speaker: "奶龙", text: "这里叫迟到者之坡。每走一步，昨天就会追上来半秒。" },
-      { speaker: "蒝蒝", text: "那就别怕迟到，把昨天也带去明天。", hero: "daily" },
-      { speaker: "旁白", text: "路边邮箱忽然开口，吐出三张盖着星尘邮戳的车票。" }
-    ],
-    choices: [
-      { text: "坐上终点写着“未定义”的末班车", next: "route_adventure_2", effects: { courage: 2, wonder: 1 } },
-      { text: "沿着影子的反方向步行，手写路线", next: "route_adventure_2", effects: { bond: 1, wonder: 2 } }
-    ]
-  },
-  route_adventure_2: {
-    bg: "streetNight",
-    hero: "walk",
-    dragon: "wow",
-    lines: [
-      { speaker: "旁白", text: "零点巴士站没有司机，只有一面会报站的镜子。镜子里的你们比现实慢半拍。" },
-      { speaker: "奶龙", text: "镜像在抢台词。先说出口的人，能决定下一站。", dragon: "sleep" },
-      { speaker: "蒝蒝", text: "那我先说：下一站叫“别把遗憾养太大”。", hero: "stage" },
-      { speaker: "旁白", text: "报站器短促地笑了一声：收到，正在偏航。" }
-    ],
-    choices: [
-      { text: "相信奶龙的直觉，闭眼三秒再前进", next: "chapter_void_station", effects: { wonder: 2, bond: 1 } },
-      { text: "把车票折成纸鹤，跟着飞行轨迹走", next: "chapter_void_station", effects: { courage: 2 } }
-    ]
-  },
-  route_market: {
-    bg: "festivalCafe",
-    hero: "daily",
     dragon: "happy",
     lines: [
-      { speaker: "旁白", text: "学园祭教室亮着奶油色灯光，黑板上的菜单每次眨眼都会改写。" },
-      { speaker: "奶龙", text: "刚刚还是草莓可丽饼，现在变成了回忆拼盘。", dragon: "happy" },
-      { speaker: "蒝蒝", text: "危险和香气经常一起出现。", hero: "wink" },
-      { speaker: "旁白", text: "桌牌浮现一行字：请用一句谎话交换一句真心。" }
+      { speaker: "旁白", text: "几次练习后，蒝蒝依旧不算有运动细胞，但她开始听得懂传球、掩护和节奏。"},
+      { speaker: "奶龙", text: "你学得比想象中快。篮球不是天赋，是习惯。", dragon: "wow" },
+      { speaker: "蒝蒝", text: "那我就把习惯练成你看得见的进步。", hero: "daily" },
+      { speaker: "旁白", text: "你们的距离从礼貌，慢慢变成了熟悉。"},
+      { speaker: "旁白", text: "就在这时，学校通知：全校统一进行校园跑。蒝蒝必须参加。"}
     ],
     choices: [
-      { text: "认真营业，把混乱当作今晚主题", next: "route_market_2", effects: { bond: 2, courage: 1 } },
-      { text: "先喂奶龙一口甜点，稳定心情", next: "route_market_2", effects: { bond: 3 } }
+      { text: "决定认真跑完，不给前辈添麻烦", next: "campus_run", effects: { courage: 1 } },
+      { text: "担心自己跑不完，提前准备音乐鼓励自己", next: "campus_run", effects: { wonder: 1 } }
     ]
   },
-  route_market_2: {
+  campus_run: {
+    bg: "streetDay",
+    hero: "walk",
+    dragon: "sleep",
+    lines: [
+      { speaker: "旁白", text: "校园跑当天，蒝蒝一直切歌，想用音乐撑住节奏。结果不小心跑偏路线，多跑了整整2公里。"},
+      { speaker: "旁白", text: "回到终点时，计时器显示无效。她站在操场边，鼻涕和眼泪一起掉下来。"},
+      { speaker: "蒝蒝", text: "我怎么总是把事情搞砸……", hero: "daily" },
+      { speaker: "旁白", text: "她一路低头往回走，风把哭声吹得很轻。就在拐角，奶龙前辈出现了。"},
+      { speaker: "奶龙", text: "我听说你跑错路线了。过来，先把气喘匀。", dragon: "wow" },
+      { speaker: "蒝蒝", text: "我真的好笨……", hero: "wink" },
+      { speaker: "奶龙", text: "笨的不是你，是那张路线图。你已经跑了2公里，还能哭着回来，已经很厉害了。", dragon: "happy" }
+    ],
+    choices: [
+      { text: "努力止住眼泪，想继续努力", next: "comfort_scene", effects: { courage: 2 } },
+      { text: "把委屈说出来，告诉他自己很害怕", next: "comfort_scene", effects: { bond: 2 } }
+    ]
+  },
+  comfort_scene: {
+    bg: "streetSunset",
+    hero: "wink",
+    dragon: "happy",
+    lines: [
+      { speaker: "旁白", text: "奶龙前辈放慢语气，把外套披到她肩上，像在给一场小小的雨找到避风处。"},
+      { speaker: "奶龙", text: "你不是不擅长运动，你只是害怕别人看见你不擅长。"},
+      { speaker: "蒝蒝", text: "那我可以……在你面前试着不怕吗？", hero: "daily" },
+      { speaker: "奶龙", text: "可以。我会在你旁边。", dragon: "wow" },
+      { speaker: "旁白", text: "那一刻，蒝蒝知道自己正在攻略一个温柔的前辈。"}
+    ],
+    choices: [
+      { text: "邀请前辈一起复盘路线", next: "bond_growth", effects: { bond: 2 } },
+      { text: "提出想学三分球当作目标", next: "bond_growth", effects: { courage: 2 } },
+      { text: "把歌单分享给他，记录这天的心情", next: "bond_growth", effects: { wonder: 2 } }
+    ]
+  },
+  bond_growth: {
     bg: "classroomEvening",
     hero: "daily",
     dragon: "happy",
     lines: [
-      { speaker: "旁白", text: "甜点入口的瞬间，教室四壁像翻页一样切成旧照片，每张都少了一个主角。" },
-      { speaker: "奶龙", text: "这些照片在找缺席的人。我们会不会也被剪掉？", dragon: "sleep" },
-      { speaker: "蒝蒝", text: "不会。互相记住的人，不会消失。", hero: "wink" },
-      { speaker: "旁白", text: "黑板下方浮现粉笔字：记忆通过，允许进入下一幕。" }
+      { speaker: "旁白", text: "之后的日子里，蒝蒝开始主动参加训练，也开始了解奶龙前辈的比赛和压力。"},
+      { speaker: "奶龙", text: "你每次出现，训练就不那么累了。", dragon: "sleep" },
+      { speaker: "蒝蒝", text: "那我就一直出现，直到你习惯为止。", hero: "wink" },
+      { speaker: "旁白", text: "你们的关系从前辈与学妹，悄悄接近一种更亲密的节奏。"}
     ],
     choices: [
-      { text: "把你们的名字写在黑板正中", next: "chapter_void_station", effects: { bond: 2, wonder: 1 } },
-      { text: "擦去旧照片边缘，给缺席者留出口", next: "chapter_void_station", effects: { courage: 1, wonder: 2 } }
-    ]
-  },
-  route_stage: {
-    bg: "musicNight",
-    hero: "stage",
-    dragon: "happy",
-    lines: [
-      { speaker: "旁白", text: "排练室灯光调到最暗，空气里漂着琴弦被轻轻拨过的回音。" },
-      { speaker: "奶龙", text: "这里的节拍器不走秒针，它走心跳。", dragon: "wow" },
-      { speaker: "蒝蒝", text: "那就不按拍子，按勇气唱。", hero: "stage" },
-      { speaker: "旁白", text: "舞台边缘亮起蓝光，像有人在台下无声鼓掌。" }
-    ],
-    choices: [
-      { text: "即兴开唱，让歌词自己生长", next: "route_stage_2", effects: { wonder: 2, courage: 1 } },
-      { text: "和奶龙合拍十次，再一起上台", next: "route_stage_2", effects: { bond: 2, wonder: 1 } }
-    ]
-  },
-  route_stage_2: {
-    bg: "musicSunset",
-    hero: "stage",
-    dragon: "wow",
-    lines: [
-      { speaker: "旁白", text: "唱到第三段副歌时，墙上时钟解体成十二只会发光的蝴蝶。" },
-      { speaker: "奶龙", text: "它们在提示我们：时间可以被编曲。", dragon: "happy" },
-      { speaker: "蒝蒝", text: "那就把后悔这段旋律删掉。", hero: "stage" },
-      { speaker: "旁白", text: "最后一个音落地，地板出现箭头，指向不存在于地图的站台。" }
-    ],
-    choices: [
-      { text: "追着蝴蝶去站台", next: "chapter_void_station", effects: { wonder: 2 } },
-      { text: "牵住奶龙，稳稳走向站台", next: "chapter_void_station", effects: { bond: 2, courage: 1 } }
-    ]
-  },
-  chapter_void_station: {
-    bg: "classroomNight",
-    hero: "wink",
-    dragon: "wow",
-    lines: [
-      { speaker: "旁白", text: "你们抵达空白站。站牌没有地名，只有滚动字幕：下一班开往你最怕失去的东西。" },
-      { speaker: "奶龙", text: "我怕失去的是“一起说废话的人”。", dragon: "sleep" },
-      { speaker: "蒝蒝", text: "那你放心，我废话库存无限。", hero: "daily" },
-      { speaker: "旁白", text: "广播切进来：请提交一句悖论，作为过闸口令。" },
-      { speaker: "蒝蒝", text: "最晚到的人，最先被想念。" },
-      { speaker: "奶龙", text: "口令通过。闸门打开。", dragon: "wow" }
-    ],
-    choices: [
-      { text: "承认害怕，但继续前进", next: "chapter_mirror_archive", effects: { bond: 2, courage: 1 } },
-      { text: "假装无敌，冲过去再说", next: "chapter_mirror_archive", effects: { courage: 2 } },
-      { text: "把害怕写成歌名，边走边唱", next: "chapter_mirror_archive", effects: { wonder: 2, bond: 1 } }
-    ]
-  },
-  chapter_mirror_archive: {
-    bg: "festivalCafe",
-    hero: "daily",
-    dragon: "happy",
-    lines: [
-      { speaker: "旁白", text: "闸门后是镜像档案室，每个抽屉里都放着一个平行夜晚：有的你们错过，有的你们重逢三次。" },
-      { speaker: "奶龙", text: "这里能看见“如果当时那样选”的版本。要打开吗？" },
-      { speaker: "蒝蒝", text: "看一眼可以，但不住在里面。我们活在这条线。", hero: "wink" },
-      { speaker: "旁白", text: "一只纸鹤停在你掌心，翅膀写着：现实不反对幻想，现实只反对逃跑。" },
-      { speaker: "奶龙", text: "最后一扇门了。门后是核心舞台。", dragon: "wow" }
-    ],
-    choices: [
-      { text: "带着所有可能性去开门", next: "chapter_clock_loop", effects: { wonder: 2 } },
-      { text: "只带当下这一刻去开门", next: "chapter_clock_loop", effects: { bond: 2 } },
-      { text: "先礼貌敲门，再勇敢推门", next: "chapter_clock_loop", effects: { courage: 2, bond: 1 } }
-    ]
-  },
-  chapter_clock_loop: {
-    bg: "musicNight",
-    hero: "stage",
-    dragon: "wow",
-    lines: [
-      { speaker: "旁白", text: "核心舞台悬在半空，四周星云逆时针流动。你们每说一句话，地板就向前亮一格。" },
-      { speaker: "奶龙", text: "最后测试：选一种方式收束今晚。选完就没有回头键。", dragon: "sleep" },
-      { speaker: "蒝蒝", text: "那就选一个不会后悔的方式。", hero: "stage" },
-      { speaker: "旁白", text: "远处传来钟声，像有人把黎明折叠成纸船。" }
-    ],
-    choices: [
-      { text: "拥抱奶龙，先保护彼此", next: "final_judge", effects: { bond: 3 } },
-      { text: "冲向光门，把未知变成旅程", next: "final_judge", effects: { courage: 3 } },
-      { text: "唱完最后一段副歌，再一起跨过去", next: "final_judge", effects: { wonder: 3, bond: 1 } }
+      { text: "决定在比赛前向他表露心意", next: "final_judge", effects: { bond: 3 } },
+      { text: "把心意藏在比赛应援里", next: "final_judge", effects: { wonder: 2, bond: 1 } },
+      { text: "先让自己变得更强，再追上他", next: "final_judge", effects: { courage: 3 } }
     ]
   },
   final_judge: {
     onEnter: (game) => {
       const s = game.state;
-      if (s.wonder >= 7 && s.bond >= 6) return "ending_secret";
+      if (s.bond >= 7 && s.wonder >= 3) return "ending_secret";
       if (s.bond >= 7) return "ending_warm";
       if (s.courage >= 7) return "ending_adventure";
       return "ending_daily";
@@ -375,13 +338,13 @@ Object.assign(SCENES, {
   ending_warm: {
     endingId: "ending_warm",
     bg: "classroomSun",
-    hero: "daily",
+    hero: "wink",
     dragon: "happy",
     lines: [
-      { speaker: "旁白", text: "清晨落在木地板上，窗外风声像慢速播放的海浪。" },
-      { speaker: "奶龙", text: "昨晚那么荒诞，醒来第一眼还是你。真好。", dragon: "happy" },
-      { speaker: "蒝蒝", text: "世界偶尔发疯，我们负责温柔。", hero: "wink" },
-      { speaker: "旁白", text: "你们在黑板角落写下日期。故事没结束，只是学会了慢慢继续。" }
+      { speaker: "旁白", text: "比赛结束后，奶龙前辈在走廊拦下蒝蒝，轻轻把她拉进人少的角落。"},
+      { speaker: "奶龙", text: "你是不是在攻略我？", dragon: "wow" },
+      { speaker: "蒝蒝", text: "如果是的话，成功了吗？", hero: "wink" },
+      { speaker: "旁白", text: "他没有回答，只是把手心的护腕递给她。那一刻，答案已经足够。"}
     ],
     choices: [
       { text: "回到标题", action: "title" },
@@ -394,10 +357,9 @@ Object.assign(SCENES, {
     hero: "walk",
     dragon: "wow",
     lines: [
-      { speaker: "旁白", text: "光门另一侧是无穷延展的晴天公路，路标写着：向前，直到定义失效。" },
-      { speaker: "奶龙", text: "今天去看会下糖纸雨的山谷，明天去看倒着游的云。", dragon: "wow" },
-      { speaker: "蒝蒝", text: "行程别排太满，留点空白给惊喜。", hero: "daily" },
-      { speaker: "旁白", text: "你们朝远方跑去，背影像两句还没写完的台词。" }
+      { speaker: "旁白", text: "蒝蒝选择先把自己练强。她的传球越来越准，陪练的次数越来越多。"},
+      { speaker: "奶龙", text: "等你投进第一个三分，我们就去吃庆功甜品。", dragon: "happy" },
+      { speaker: "旁白", text: "她抬头看见篮筐，心里只剩一句话：我要追上他，也要让他看到我。"}
     ],
     choices: [
       { text: "回到标题", action: "title" },
@@ -406,14 +368,14 @@ Object.assign(SCENES, {
   },
   ending_daily: {
     endingId: "ending_daily",
-    bg: "musicDay",
+    bg: "festivalCafe",
     hero: "daily",
     dragon: "happy",
     lines: [
-      { speaker: "旁白", text: "光门没有完全展开，但世界恢复了清晰边界。你们坐在窗边，把热可可吹到刚好入口。" },
-      { speaker: "奶龙", text: "我们好像没拯救宇宙。", dragon: "sleep" },
-      { speaker: "蒝蒝", text: "但我们拯救了今晚的自己，这也很厉害。", hero: "wink" },
-      { speaker: "旁白", text: "楼道里传来笑声。你忽然发现，日常本身就是隐藏关卡。" }
+      { speaker: "旁白", text: "你们没有立刻表白，但每次训练后的并肩走路，都像一种默契。"},
+      { speaker: "奶龙", text: "你今天没哭了。", dragon: "sleep" },
+      { speaker: "蒝蒝", text: "因为有人在等我。", hero: "wink" },
+      { speaker: "旁白", text: "故事还没结束，只是换成了更柔软的速度。"}
     ],
     choices: [
       { text: "回到标题", action: "title" },
@@ -422,14 +384,14 @@ Object.assign(SCENES, {
   },
   ending_secret: {
     endingId: "ending_secret",
-    bg: "musicSunset",
+    bg: "classroomSun",
     hero: "stage",
     dragon: "wow",
     lines: [
-      { speaker: "旁白", text: "你们的和声击中核心，整座城市进入共鸣模式：路灯会跟着心跳明暗，云层会回应笑声。" },
-      { speaker: "奶龙", text: "双生共鸣不是力量，是同频。", dragon: "wow" },
-      { speaker: "蒝蒝", text: "那就把这份同频，分给每个深夜还在赶路的人。", hero: "stage" },
-      { speaker: "旁白", text: "天幕缓缓打开，浮现字幕：隐藏结局已解锁，愿你永远有勇气把荒诞活成浪漫。" }
+      { speaker: "旁白", text: "比赛当天，蒝蒝把歌单换成了第一节课的那首。奶龙前辈在罚球线回头看她，笑得很轻。"},
+      { speaker: "奶龙", text: "学妹，你这个攻略太犯规了。", dragon: "wow" },
+      { speaker: "蒝蒝", text: "那就判我终身陪练。", hero: "stage" },
+      { speaker: "旁白", text: "掌声落下时，你们都知道，故事进入了真正的主线。"}
     ],
     choices: [
       { text: "回到标题", action: "title" },
